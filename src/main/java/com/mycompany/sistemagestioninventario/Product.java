@@ -29,6 +29,7 @@ public class Product implements Serializable{
         this.category = category;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }

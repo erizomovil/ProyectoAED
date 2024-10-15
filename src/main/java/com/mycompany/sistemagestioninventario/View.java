@@ -19,37 +19,67 @@ public class View extends javax.swing.JFrame {
      * Creates new form View
      */
     private DefaultTableModel tableModel;
+    ProductList productList = new ProductList();
 
     public View() {
         initComponents();
         MainPanel.setVisible(false);
+        
+        // Test data
+        Product product1 = new Product(5, "jamon", 73, 6, "Food");
+        Product product2 = new Product(7, "Arroz", 17, 5, "Food");
+        productList.addProduct(product1);
+        productList.addProduct(product2);
+        
         LoadTable();
     }
-
+    
+    public void AddProduct(Product product){
+        productList.addProduct(product);
+        LoadTable();
+    }
+    
     private void ClearTable() {
         if (jTable2.getModel() instanceof DefaultTableModel) {
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0); // This clears all rows from the model
+            productList.getProducts().clear();
         }
     }
 
     private void LoadTable() {
-        //Cargar la tabla segun el archivo seleccionado
-        // Example data
-        Object[][] data = {
-            {"Product A", 10, 15.99, "Category 1", "Config A"},
-            {"Product B", 20, 25.99, "Category 2", "Config B"},
-            {"Product C", 30, 35.99, "Category 3", "Config C"}
-        };
 
-        // Define column names
-        String[] columnNames = {"Product Name", "Quantity", "Price", "Category", "Configuration"};
+        Object[][] data = convertProductListToData(productList);
 
-        // Create a DefaultTableModel with the data and column names
+        String[] columnNames = {"Product Name", "Quantity", "Price", "Category", "Configuration", "Delete"};
+
         tableModel = new DefaultTableModel(data, columnNames);
 
-        // Set the table model to jTable2
         jTable2.setModel(tableModel);
+
+        jTable2.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+        jTable2.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(jTable2));
+        
+        jTable2.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+        jTable2.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(jTable2));
+    }
+    
+        private Object[][] convertProductListToData(ProductList productList) {
+
+        int productCount = productList.getProducts().size();
+        Object[][] data = new Object[productCount][6];
+
+        for (int i = 0; i < productCount; i++) {
+            Product product = productList.getProducts().get(i);
+            data[i][0] = product.getName();
+            data[i][1] = product.getQuantity();
+            data[i][2] = product.getPrice();
+            data[i][3] = product.getCategory();
+            data[i][4] = "Configure";
+            data[i][5] = "Delete";
+
+        }
+        return data;
     }
 
     /**
@@ -66,11 +96,12 @@ public class View extends javax.swing.JFrame {
         SaveBtn = new javax.swing.JButton();
         LoadBtn = new javax.swing.JButton();
         ExitBtn = new javax.swing.JButton();
+        DeleteBtn = new javax.swing.JButton();
         MainPanel = new javax.swing.JPanel();
         FileName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        DeleteBtn = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,6 +138,15 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        DeleteBtn.setText("Delete File");
+        DeleteBtn.setMaximumSize(new java.awt.Dimension(72, 23));
+        DeleteBtn.setMinimumSize(new java.awt.Dimension(72, 23));
+        DeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -114,10 +154,13 @@ public class View extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(NewFileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                    .addComponent(NewFileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SaveBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LoadBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ExitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ExitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(DeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -129,7 +172,9 @@ public class View extends javax.swing.JFrame {
                 .addComponent(SaveBtn)
                 .addGap(18, 18, 18)
                 .addComponent(LoadBtn)
-                .addGap(449, 449, 449)
+                .addGap(18, 18, 18)
+                .addComponent(DeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(408, 408, 408)
                 .addComponent(ExitBtn)
                 .addContainerGap())
         );
@@ -152,10 +197,10 @@ public class View extends javax.swing.JFrame {
         jTable2.setFocusable(false);
         jScrollPane1.setViewportView(jTable2);
 
-        DeleteBtn.setText("Delete File");
-        DeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Add Product");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteBtnActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -169,7 +214,7 @@ public class View extends javax.swing.JFrame {
                     .addGroup(MainPanelLayout.createSequentialGroup()
                         .addComponent(FileName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DeleteBtn))
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
         );
@@ -177,9 +222,9 @@ public class View extends javax.swing.JFrame {
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FileName)
-                    .addComponent(DeleteBtn))
+                .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(FileName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(12, Short.MAX_VALUE))
@@ -209,7 +254,7 @@ public class View extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -253,11 +298,18 @@ public class View extends javax.swing.JFrame {
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // PROVISIONAL
-        EditProduct editProductFrame = new EditProduct();
-        editProductFrame.setVisible(true);
-        editProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        editProductFrame.setLocationRelativeTo(null);
+        AddProduct createProductFrame = new AddProduct(false, this);
+        createProductFrame.setVisible(true);
+        createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        createProductFrame.setLocationRelativeTo(null);
     }//GEN-LAST:event_SaveBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AddProduct createProductFrame = new AddProduct(true, this);
+        createProductFrame.setVisible(true);
+        createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        createProductFrame.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,6 +365,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JButton NewFileBtn;
     private javax.swing.JButton SaveBtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
