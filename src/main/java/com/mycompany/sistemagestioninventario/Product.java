@@ -4,12 +4,15 @@
  */
 package com.mycompany.sistemagestioninventario;
 
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  *
  * @author Ancor
  */
+@XmlRootElement(name = "product")
 public class Product implements Serializable{
 
     private int id;
@@ -42,22 +45,27 @@ public class Product implements Serializable{
         this.category = category;
     }
 
+        @XmlElement    
     public int getId() {
         return id;
     }
-
+    
+    @XmlElement
     public String getName() {
         return name;
     }
 
+    @XmlElement
     public int getQuantity() {
         return quantity;
     }
 
+    @XmlElement
     public float getPrice() {
         return price;
     }
 
+    @XmlElement
     public String getCategory() {
         return category;
     }
