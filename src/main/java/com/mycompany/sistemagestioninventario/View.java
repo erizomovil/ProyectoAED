@@ -6,6 +6,7 @@ package com.mycompany.sistemagestioninventario;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,6 +40,11 @@ public class View extends javax.swing.JFrame {
         LoadTable();
     }
     
+    public void EditProduct(Product product){
+        productList.addProduct(product);
+        LoadTable();
+    }
+    
     private void ClearTable() {
         if (jTable2.getModel() instanceof DefaultTableModel) {
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
@@ -58,10 +64,10 @@ public class View extends javax.swing.JFrame {
         jTable2.setModel(tableModel);
 
         jTable2.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
-        jTable2.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(jTable2));
+        jTable2.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(jTable2, this));
         
         jTable2.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-        jTable2.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(jTable2));
+        jTable2.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(jTable2, this));
     }
     
         private Object[][] convertProductListToData(ProductList productList) {
@@ -356,6 +362,11 @@ public class View extends javax.swing.JFrame {
             }
         });
     }
+    
+    public JTable getjTable2() {
+        return jTable2;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DeleteBtn;

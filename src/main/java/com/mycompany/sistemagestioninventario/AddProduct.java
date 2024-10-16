@@ -4,6 +4,8 @@
  */
 package com.mycompany.sistemagestioninventario;
 
+
+import javax.swing.JTextField;
 /**
  *
  * @author Ancor
@@ -23,10 +25,10 @@ public class AddProduct extends javax.swing.JFrame {
         this.v = v;
         this.operationType = x;
         if(!operationType){
-            jTextField4.setText("Product Name");
-            jTextField1.setText("Quantity");
-            jTextField2.setText("Price");
-            jTextField3.setText("Category");
+            jTextField4.setText(v.getjTable2().getValueAt(v.getjTable2().getSelectedRow(), 0).toString());
+            jTextField1.setText(v.getjTable2().getValueAt(v.getjTable2().getSelectedRow(), 1).toString());
+            jTextField2.setText(v.getjTable2().getValueAt(v.getjTable2().getSelectedRow(), 2).toString());
+            jTextField3.setText(v.getjTable2().getValueAt(v.getjTable2().getSelectedRow(), 3).toString());
         }
     }
     public AddProduct(){};
@@ -227,7 +229,37 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
     }
+public JTextField getjTextField1() {
+        return jTextField1;
+    }
 
+    public JTextField getjTextField2() {
+        return jTextField2;
+    }
+
+    public JTextField getjTextField3() {
+        return jTextField3;
+    }
+
+    public JTextField getjTextField4() {
+        return jTextField4;
+    }
+
+    public void setjTextField1(JTextField jTextField1) {
+        this.jTextField1 = jTextField1;
+    }
+
+    public void setjTextField2(JTextField jTextField2) {
+        this.jTextField2 = jTextField2;
+    }
+
+    public void setjTextField3(JTextField jTextField3) {
+        this.jTextField3 = jTextField3;
+    }
+
+    public void setjTextField4(JTextField jTextField4) {
+        this.jTextField4 = jTextField4;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel FileName1;
     private javax.swing.JLabel FileName2;

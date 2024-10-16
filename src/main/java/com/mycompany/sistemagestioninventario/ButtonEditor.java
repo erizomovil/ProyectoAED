@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.TableCellEditor;
 /**
  *
@@ -22,7 +23,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
     private String label;
     private boolean isPushed;
 
-    public ButtonEditor(JTable table) {
+    public ButtonEditor(JTable table, View v) {
         button = new JButton();
         button.setOpaque(true);
         button.setFont(new Font("Microsoft YaHei Light", Font.PLAIN, 12));
@@ -31,10 +32,15 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 fireEditingStopped();
                 if (label.equals("Configure")) {
                     // Add configuration logic here
                     System.out.println("Configure clicked for row " + table.getSelectedRow());
+                    AddProduct createProductFrame = new AddProduct(false, v);
+                    createProductFrame.setVisible(true);
+                    createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    createProductFrame.setLocationRelativeTo(null);
                 } else if (label.equals("Delete")) {
                     // Add delete logic here
                     System.out.println("Delete clicked for row " + table.getSelectedRow());
