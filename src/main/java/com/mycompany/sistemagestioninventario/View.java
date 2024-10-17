@@ -25,26 +25,31 @@ public class View extends javax.swing.JFrame {
     public View() {
         initComponents();
         MainPanel.setVisible(false);
-        
+
         // Test data
         Product product1 = new Product(5, "jamon", 73, 6, "Food");
         Product product2 = new Product(7, "Arroz", 17, 5, "Food");
         productList.addProduct(product1);
         productList.addProduct(product2);
-        
+
         LoadTable();
     }
-    
-    public void AddProduct(Product product){
+
+    public void AddProduct(Product product) {
         productList.addProduct(product);
         LoadTable();
     }
-    
-    public void EditProduct(Product product){
+
+    public void EditProduct(Product product) {
         productList.addProduct(product);
         LoadTable();
     }
-    
+
+    public void UpdateProduct(Product editedProduct, int id) {
+        productList.updateProductAt(id, editedProduct);
+        LoadTable();
+   }
+
     private void ClearTable() {
         if (jTable2.getModel() instanceof DefaultTableModel) {
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
@@ -65,12 +70,12 @@ public class View extends javax.swing.JFrame {
 
         jTable2.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
         jTable2.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(jTable2, this));
-        
+
         jTable2.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
         jTable2.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(jTable2, this));
     }
-    
-        private Object[][] convertProductListToData(ProductList productList) {
+
+    private Object[][] convertProductListToData(ProductList productList) {
 
         int productCount = productList.getProducts().size();
         Object[][] data = new Object[productCount][6];
@@ -362,7 +367,7 @@ public class View extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public JTable getjTable2() {
         return jTable2;
     }

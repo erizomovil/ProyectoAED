@@ -35,7 +35,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jTextField3" min="-2" pref="263" max="-2" attributes="0"/>
+                          <Component id="CategoryField" min="-2" pref="263" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -46,12 +46,12 @@
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jTextField2" min="-2" pref="190" max="-2" attributes="0"/>
+                              <Component id="PriceField" min="-2" pref="190" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="FileName4" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jTextField1" min="-2" pref="263" max="-2" attributes="0"/>
-                          <Component id="jTextField4" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
+                          <Component id="QuantityField" min="-2" pref="263" max="-2" attributes="0"/>
+                          <Component id="NameField" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -63,22 +63,22 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Component id="jTextField4" min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="NameField" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="FileName1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="QuantityField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="FileName2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="PriceField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="FileName4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="FileName3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="CategoryField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -99,7 +99,7 @@
         <Property name="text" type="java.lang.String" value="Quantity"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="QuantityField">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Microsoft YaHei Light" size="12" style="0"/>
@@ -114,7 +114,7 @@
         <Property name="text" type="java.lang.String" value="Price"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="PriceField">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Microsoft YaHei Light" size="12" style="0"/>
@@ -129,7 +129,7 @@
         <Property name="text" type="java.lang.String" value="Category"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="CategoryField">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Microsoft YaHei Light" size="12" style="0"/>
@@ -166,7 +166,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField4">
+    <Component class="javax.swing.JTextField" name="NameField">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Microsoft YaHei Light" size="18" style="0"/>
@@ -174,8 +174,9 @@
         <Property name="text" type="java.lang.String" value="Product Name"/>
       </Properties>
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField4FocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField4FocusLost"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="NameFieldFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="NameFieldFocusLost"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NameFieldActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

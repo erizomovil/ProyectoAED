@@ -29,6 +29,12 @@ public class Product implements Serializable{
         this.category = category;
     }
 
+    public Product() {
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }    
 
     public void setName(String name) {
         this.name = name;
@@ -46,7 +52,7 @@ public class Product implements Serializable{
         this.category = category;
     }
 
-        @XmlElement    
+    @XmlElement    
     public int getId() {
         return id;
     }

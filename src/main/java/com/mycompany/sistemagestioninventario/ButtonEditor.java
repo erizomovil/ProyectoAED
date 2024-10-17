@@ -38,9 +38,6 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
                     // Add configuration logic here
                     System.out.println("Configure clicked for row " + table.getSelectedRow());
                     AddProduct createProductFrame = new AddProduct(false, v);
-                    createProductFrame.setVisible(true);
-                    createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    createProductFrame.setLocationRelativeTo(null);
                 } else if (label.equals("Delete")) {
                     // Add delete logic here
                     System.out.println("Delete clicked for row " + table.getSelectedRow());
