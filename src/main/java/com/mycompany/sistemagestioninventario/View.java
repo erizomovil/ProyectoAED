@@ -26,13 +26,6 @@ public class View extends javax.swing.JFrame {
     public View() {
         initComponents();
         MainPanel.setVisible(false);
-
-        // Test data
-        Product product1 = new Product(5, "jamon", 73, 6, "Food");
-        Product product2 = new Product(7, "Arroz", 17, 5, "Food");
-        productList.addProduct(product1);
-        productList.addProduct(product2);
-
         LoadTable();
     }
 
@@ -59,7 +52,7 @@ public class View extends javax.swing.JFrame {
     private void ClearTable() {
         if (jTable2.getModel() instanceof DefaultTableModel) {
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-            model.setRowCount(0); // This clears all rows from the model
+            model.setRowCount(0);
             productList.getProducts().clear();
         }
     }
@@ -118,7 +111,7 @@ public class View extends javax.swing.JFrame {
         FileName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        AddBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -214,10 +207,10 @@ public class View extends javax.swing.JFrame {
         jTable2.setFocusable(false);
         jScrollPane1.setViewportView(jTable2);
 
-        jButton1.setText("Add Product");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AddBtn.setText("Add Product");
+        AddBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddBtnActionPerformed(evt);
             }
         });
 
@@ -231,7 +224,7 @@ public class View extends javax.swing.JFrame {
                     .addGroup(MainPanelLayout.createSequentialGroup()
                         .addComponent(FileName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(AddBtn))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
         );
@@ -241,7 +234,7 @@ public class View extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(FileName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(AddBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(12, Short.MAX_VALUE))
@@ -293,7 +286,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_DeleteBtnActionPerformed
 
     private void ExitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitBtnActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_ExitBtnActionPerformed
 
     private void LoadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadBtnActionPerformed
@@ -305,10 +298,9 @@ public class View extends javax.swing.JFrame {
 
             if (fileNameParts.length > 1) {
                 String extension = fileNameParts[fileNameParts.length - 1].trim();
-                //System.out.println("File name: " + selectedFile.getAbsolutePath());
-                //System.out.println("File extension: " + extension);
+                FileName.setText(selectedFile.getName());
             } else {
-                System.out.println("No extension found for the file: " + selectedFile.getName());
+                new ErrorHandler("No extension found for the file: " + selectedFile.getName(), null);
             }
         }
     }//GEN-LAST:event_LoadBtnActionPerformed
@@ -371,12 +363,12 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_SaveBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
         AddProduct createProductFrame = new AddProduct(true, this);
         createProductFrame.setVisible(true);
         createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         createProductFrame.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_AddBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -430,6 +422,7 @@ public class View extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddBtn;
     private javax.swing.JButton DeleteBtn;
     private javax.swing.JButton ExitBtn;
     private javax.swing.JLabel FileName;
@@ -437,7 +430,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JButton NewFileBtn;
     private javax.swing.JButton SaveBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;

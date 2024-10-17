@@ -45,7 +45,7 @@ public class TransformData {
             }
             System.out.println("Conversión completa: " + filePath + " generado.");
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            new ErrorHandler("Error en la conversion a CSV ", e);
         }
     }
 
@@ -60,7 +60,7 @@ public class TransformData {
             System.out.println("Conversión completa: " + filePath + " generado.");
 
         } catch (JAXBException e) {
-            System.out.println("Error: " + e.getMessage());
+            new ErrorHandler("Error en la conversion a XML ", e);
         }
     }
 
@@ -72,7 +72,7 @@ public class TransformData {
             writer.close();
             System.out.println("Conversión de objetos a JSON completada.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            new ErrorHandler("Error en la conversion a JSON ", e);
         }
     }
 
@@ -100,7 +100,7 @@ public class TransformData {
             }
             System.out.println("Lectura de CSV completada.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            new ErrorHandler("Error en la lectura de CSV ", e);
         }
 
         return products;
@@ -119,10 +119,10 @@ public class TransformData {
             });
 
         } catch (IOException e) {
-            e.printStackTrace();
+            new ErrorHandler("Error en la lectura de JSON ", e);
         }
 
-        return null; // En caso de error, retorna null
+        return null;
     }
 
     public static List<Product> XMLToObject(String xmlFilePath) {
@@ -134,7 +134,7 @@ public class TransformData {
             ProductList productList = (ProductList) unmarshaller.unmarshal(xmlFile);
             return productList.getProducts();
         } catch (JAXBException e) {
-            e.printStackTrace();
+            new ErrorHandler("Error en la lectura de XML ", e);
             return null;
         }
     }

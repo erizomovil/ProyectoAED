@@ -31,7 +31,7 @@ public class ProductList {
         if (index >= 0 && index < products.size()) {
             return products.get(index);
         } else {
-            System.out.println("Índice fuera de rango.");
+            new ErrorHandler("Índice fuera de rango.", null);
             return null;
         }
     }
@@ -40,7 +40,7 @@ public class ProductList {
         if (index >= 0 && index < products.size()) {
             products.set(index, updatedProduct);
         } else {
-            System.out.println("Índice fuera de rango.");
+            new ErrorHandler("Índice fuera de rango.", null);
         }
     }
 }

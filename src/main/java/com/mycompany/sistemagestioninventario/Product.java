@@ -33,10 +33,6 @@ public class Product implements Serializable {
         // Empty constructor needed for JAXB
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
