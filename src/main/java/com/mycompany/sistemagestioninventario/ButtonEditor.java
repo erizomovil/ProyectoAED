@@ -40,6 +40,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
                     AddProduct createProductFrame = new AddProduct(false, v);
                 } else if (label.equals("Delete")) {
                     // Add delete logic here
+                    v.RemoveProduct(table.getSelectedRow());
                     System.out.println("Delete clicked for row " + table.getSelectedRow());
                 }
             }

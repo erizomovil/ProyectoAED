@@ -21,6 +21,7 @@ public class View extends javax.swing.JFrame {
      */
     private DefaultTableModel tableModel;
     ProductList productList = new ProductList();
+    TransformData transformData = new TransformData();
 
     public View() {
         initComponents();
@@ -48,7 +49,12 @@ public class View extends javax.swing.JFrame {
     public void UpdateProduct(Product editedProduct, int id) {
         productList.updateProductAt(id, editedProduct);
         LoadTable();
-   }
+    }
+
+    public void RemoveProduct(int x) {
+        productList.getProducts().remove(x);
+        LoadTable();
+    }
 
     private void ClearTable() {
         if (jTable2.getModel() instanceof DefaultTableModel) {
@@ -308,11 +314,61 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadBtnActionPerformed
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-        // PROVISIONAL
-        AddProduct createProductFrame = new AddProduct(false, this);
-        createProductFrame.setVisible(true);
-        createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        createProductFrame.setLocationRelativeTo(null);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save as");
+
+        // filters the files by format
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.txt, .csv, .xml, .json)", "txt", "csv", "xml", "json"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            String fileExtension = "";
+
+            // this checks it has a valid extention
+            String[] acceptedExtensions = {"txt", "csv", "xml", "json"};
+            boolean hasValidExtension = false;
+
+            for (String ext : acceptedExtensions) {
+                if (filePath.toLowerCase().endsWith("." + ext)) {
+                    fileExtension = ext;
+                    hasValidExtension = true;
+                    break;
+                }
+            }
+
+            // If it has not a valid extention, it adds one
+            if (!hasValidExtension) {
+                // this gets a file extention to add
+                String[] extension = fileChooser.getFileFilter().getDescription().split("\\.");
+                if (extension.length > 1) {
+                    fileExtension = extension[1].replace(")", "").trim();
+                    filePath += "." + fileExtension;
+                }
+            }
+
+            // it process the file format
+            switch (fileExtension) {
+                case "txt":
+                    System.out.println("it's not completed");
+                    break;
+                case "csv":
+                    transformData.ObjectToCSV(productList, filePath);
+                    break;
+                case "xml":
+                    transformData.ObjectToXML(productList, filePath);
+                    break;
+                case "json":
+                    transformData.ObjectToJSON(productList, filePath);
+                    break;
+                default:
+                    System.out.println("Unsupported file format.");
+            }
+
+            System.out.println("File saved : " + filePath);
+        }
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

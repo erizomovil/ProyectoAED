@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Ancor
  */
 @XmlRootElement(name = "product")
-public class Product implements Serializable{
+public class Product implements Serializable {
 
     private int id;
     private String name;
@@ -30,11 +30,12 @@ public class Product implements Serializable{
     }
 
     public Product() {
+        // Empty constructor needed for JAXB
     }
-    
+
     public void setId(int id) {
         this.id = id;
-    }    
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -52,11 +53,11 @@ public class Product implements Serializable{
         this.category = category;
     }
 
-    @XmlElement    
+    @XmlElement
     public int getId() {
         return id;
     }
-    
+
     @XmlElement
     public String getName() {
         return name;

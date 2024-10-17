@@ -28,7 +28,7 @@ import java.io.ObjectInputStream;
  */
 public class TransformData {
 
-    public static void ObjectToCSV(ProductList productList, String filePath) {
+    public void ObjectToCSV(ProductList productList, String filePath) {
         try (FileWriter writer = new FileWriter(filePath)) {
 
             for (Product product : productList.getProducts()) {
@@ -49,7 +49,7 @@ public class TransformData {
         }
     }
 
-    public static void ObjectToXML(ProductList productList, String filePath) {
+    public void ObjectToXML(ProductList productList, String filePath) {
         try {
             JAXBContext context = JAXBContext.newInstance(ProductList.class, Product.class);
             Marshaller marshaller = context.createMarshaller();
@@ -64,14 +64,11 @@ public class TransformData {
         }
     }
 
-    public static void ObjectToJSON(ProductList productList, String filePath) {
+    public void ObjectToJSON(ProductList productList, String filePath) {
         try {
-            ObjectInputStream ficheroObjetos = new ObjectInputStream(new FileInputStream(filePath));
-            List<ProductList> products = (List<ProductList>) ficheroObjetos.readObject();
-            ficheroObjetos.close();
             Gson gson = new Gson();
             FileWriter writer = new FileWriter(filePath);
-            gson.toJson(products, writer);
+            gson.toJson(productList, writer);
             writer.close();
             System.out.println("Conversión de objetos a JSON completada.");
         } catch (Exception e) {
