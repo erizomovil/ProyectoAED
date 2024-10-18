@@ -2,6 +2,7 @@ package com.mycompany.sistemagestioninventario;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +11,16 @@ import java.util.List;
  * @author Jorge
  */
 @XmlRootElement(name = "products")
-public class ProductList {
+public class ProductList implements Serializable{
 
     private List<Product> products;
 
     public ProductList() {
         this.products = new ArrayList<>();
+    }
+    
+    public void addList(List<Product> x){
+        products = x;
     }
 
     @XmlElement(name = "product")

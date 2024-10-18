@@ -20,7 +20,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  *
@@ -43,9 +45,8 @@ public class TransformData {
                         .append(product.getCategory())
                         .append("\n");
             }
-            System.out.println("Conversión completa: " + filePath + " generado.");
         } catch (IOException e) {
-            new ErrorHandler("Error en la conversion a CSV ", e);
+            new ErrorHandler("Error converting CSV file", e);
         }
     }
 
@@ -56,11 +57,8 @@ public class TransformData {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             marshaller.marshal(productList, new File(filePath));
-
-            System.out.println("Conversión completa: " + filePath + " generado.");
-
         } catch (JAXBException e) {
-            new ErrorHandler("Error en la conversion a XML ", e);
+            new ErrorHandler("Error converting XML file", e);
         }
     }
 
@@ -70,9 +68,18 @@ public class TransformData {
             FileWriter writer = new FileWriter(filePath);
             gson.toJson(productList, writer);
             writer.close();
-            System.out.println("Conversión de objetos a JSON completada.");
         } catch (Exception e) {
-            new ErrorHandler("Error en la conversion a JSON ", e);
+            new ErrorHandler("Error converting JSON file", e);
+        }
+    }
+
+    public void ObjectTODat(ProductList productList, String filePath) {
+        try (FileOutputStream fileOut = new FileOutputStream(filePath); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+
+            out.writeObject(productList);
+
+        } catch (IOException e) {
+            new ErrorHandler("Error converting to DAT file ", e);
         }
     }
 
@@ -98,9 +105,8 @@ public class TransformData {
                     products.add(product);
                 }
             }
-            System.out.println("Lectura de CSV completada.");
         } catch (Exception e) {
-            new ErrorHandler("Error en la lectura de CSV ", e);
+            new ErrorHandler("Error reading CSV file", e);
         }
 
         return products;
@@ -113,30 +119,42 @@ public class TransformData {
 
             File jsonFile = new File(filePath);
             JsonNode rootNode = objectMapper.readTree(jsonFile);
-            JsonNode productsNode = rootNode.get("Product");
+            JsonNode productsNode = rootNode.get("products");
 
             return objectMapper.convertValue(productsNode, new TypeReference<List<Product>>() {
             });
 
         } catch (IOException e) {
-            new ErrorHandler("Error en la lectura de JSON ", e);
+            new ErrorHandler("Error reading JSON file", e);
         }
 
         return null;
     }
 
-    public static List<Product> XMLToObject(String xmlFilePath) {
+    public static List<Product> XMLToObject(String filePath) {
         try {
-            File xmlFile = new File(xmlFilePath);
+            File xmlFile = new File(filePath);
             JAXBContext context = JAXBContext.newInstance(ProductList.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
             ProductList productList = (ProductList) unmarshaller.unmarshal(xmlFile);
             return productList.getProducts();
         } catch (JAXBException e) {
-            new ErrorHandler("Error en la lectura de XML ", e);
+            new ErrorHandler("Error reading XML file", e);
             return null;
         }
     }
-}
 
+    public static List<Product> DatToObject(String filePath) {
+        List<Product> list = null;
+        try (FileInputStream fileIn = new FileInputStream(filePath); ObjectInputStream in = new ObjectInputStream(fileIn)) {
+
+            ProductList productList = (ProductList) in.readObject();
+            list = productList.getProducts();
+
+        } catch (IOException | ClassNotFoundException e) {
+            new ErrorHandler("Error reading DAT file ", e);
+        }
+        return list;
+    }
+}

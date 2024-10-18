@@ -20,6 +20,7 @@ public class View extends javax.swing.JFrame {
      * Creates new form View
      */
     private DefaultTableModel tableModel;
+    File loadedFile;
     ProductList productList = new ProductList();
     TransformData transformData = new TransformData();
 
@@ -27,6 +28,7 @@ public class View extends javax.swing.JFrame {
         initComponents();
         MainPanel.setVisible(false);
         LoadTable();
+        this.setResizable(false);
     }
 
     public void AddProduct(Product product) {
@@ -63,7 +65,15 @@ public class View extends javax.swing.JFrame {
 
         String[] columnNames = {"Product Name", "Quantity", "Price", "Category", "Configuration", "Delete"};
 
-        tableModel = new DefaultTableModel(data, columnNames);
+        tableModel = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column == 4 || column == 5) {
+                    return true;
+                }
+                return false;
+            }
+        };
 
         jTable2.setModel(tableModel);
 
@@ -128,6 +138,7 @@ public class View extends javax.swing.JFrame {
         });
 
         SaveBtn.setText("Save");
+        SaveBtn.setEnabled(false);
         SaveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SaveBtnActionPerformed(evt);
@@ -149,6 +160,7 @@ public class View extends javax.swing.JFrame {
         });
 
         DeleteBtn.setText("Delete File");
+        DeleteBtn.setEnabled(false);
         DeleteBtn.setMaximumSize(new java.awt.Dimension(72, 23));
         DeleteBtn.setMinimumSize(new java.awt.Dimension(72, 23));
         DeleteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -164,9 +176,9 @@ public class View extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LoadBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(NewFileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SaveBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LoadBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ExitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(DeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,9 +191,9 @@ public class View extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(NewFileBtn)
                 .addGap(18, 18, 18)
-                .addComponent(SaveBtn)
-                .addGap(18, 18, 18)
                 .addComponent(LoadBtn)
+                .addGap(18, 18, 18)
+                .addComponent(SaveBtn)
                 .addGap(18, 18, 18)
                 .addComponent(DeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(408, 408, 408)
@@ -267,7 +279,7 @@ public class View extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -277,50 +289,41 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NewFileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFileBtnActionPerformed
+        SaveBtn.setEnabled(true);
         MainPanel.setVisible(true);
         jLabel3.setVisible(false);
     }//GEN-LAST:event_NewFileBtnActionPerformed
 
     private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
         ClearTable();
+        loadedFile.delete();
+        MainPanel.setVisible(false);
+        jLabel3.setVisible(true);
+        SaveBtn.setEnabled(false);
+        DeleteBtn.setEnabled(false);
     }//GEN-LAST:event_DeleteBtnActionPerformed
 
     private void ExitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitBtnActionPerformed
-        this.dispose();
+        ClearTable();
+        SaveBtn.setEnabled(false);
+        MainPanel.setVisible(false);
+        jLabel3.setVisible(true);
     }//GEN-LAST:event_ExitBtnActionPerformed
 
     private void LoadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadBtnActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            String[] fileNameParts = selectedFile.getName().split("\\.");
+        fileChooser.setDialogTitle("Load");
 
-            if (fileNameParts.length > 1) {
-                String extension = fileNameParts[fileNameParts.length - 1].trim();
-                FileName.setText(selectedFile.getName());
-            } else {
-                new ErrorHandler("No extension found for the file: " + selectedFile.getName(), null);
-            }
-        }
-    }//GEN-LAST:event_LoadBtnActionPerformed
-
-    private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Save as");
-
-        // filters the files by format
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.txt, .csv, .xml, .json)", "txt", "csv", "xml", "json"));
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.dat, .csv, .xml, .json)", "dat", "csv", "xml", "json"));
 
         int userSelection = fileChooser.showSaveDialog(this);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            String filePath = fileToSave.getAbsolutePath();
+            File fileToLoad = fileChooser.getSelectedFile();
+            String filePath = fileToLoad.getAbsolutePath();
             String fileExtension = "";
 
-            // this checks it has a valid extention
-            String[] acceptedExtensions = {"txt", "csv", "xml", "json"};
+            String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
             boolean hasValidExtension = false;
 
             for (String ext : acceptedExtensions) {
@@ -331,20 +334,72 @@ public class View extends javax.swing.JFrame {
                 }
             }
 
-            // If it has not a valid extention, it adds one
-            if (!hasValidExtension) {
-                // this gets a file extention to add
-                String[] extension = fileChooser.getFileFilter().getDescription().split("\\.");
-                if (extension.length > 1) {
-                    fileExtension = extension[1].replace(")", "").trim();
-                    filePath += "." + fileExtension;
+            MainPanel.setVisible(true);
+            jLabel3.setVisible(false);
+            switch (fileExtension) {
+                case "dat":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.DatToObject(filePath));
+                    break;
+                case "csv":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.CSVToObject(filePath));
+                    break;
+                case "xml":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.XMLToObject(filePath));
+                    break;
+                case "json":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.JsonToObject(filePath));
+                    break;
+                default:
+                    new ErrorHandler("Extension not supported", null);
+            }
+            FileName.setText(fileToLoad.getName());
+            LoadTable();
+            loadedFile = fileToLoad;
+            DeleteBtn.setEnabled(true);
+            SaveBtn.setEnabled(true);
+        }
+    }//GEN-LAST:event_LoadBtnActionPerformed
+
+    private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save as");
+
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.dat, .csv, .xml, .json)", "dat", "csv", "xml", "json"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            String fileExtension = "";
+
+            String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
+            boolean hasValidExtension = false;
+
+            for (String ext : acceptedExtensions) {
+                if (filePath.toLowerCase().endsWith("." + ext)) {
+                    fileExtension = ext;
+                    hasValidExtension = true;
+                    break;
                 }
             }
 
-            // it process the file format
+            if (!hasValidExtension) {
+                String[] extension = fileChooser.getFileFilter().getDescription().split("\\.");
+                if (extension.length > 1) {
+                    fileExtension = extension[1].replace(")", "").trim();
+                    filePath += ".dat";
+                    fileExtension = "dat";
+                }
+            }
+
             switch (fileExtension) {
-                case "txt":
-                    System.out.println("it's not completed");
+                case "dat":
+                    transformData.ObjectTODat(productList, filePath);
                     break;
                 case "csv":
                     transformData.ObjectToCSV(productList, filePath);
@@ -356,10 +411,8 @@ public class View extends javax.swing.JFrame {
                     transformData.ObjectToJSON(productList, filePath);
                     break;
                 default:
-                    System.out.println("Unsupported file format.");
+                    new ErrorHandler("Extension not supported", null);
             }
-
-            System.out.println("File saved : " + filePath);
         }
     }//GEN-LAST:event_SaveBtnActionPerformed
 
