@@ -33,17 +33,13 @@ public class View extends javax.swing.JFrame {
 
     public void AddProduct(Product product) {
         productList.addProduct(product);
-        LoadTable();
-        
-    }
-
-    public void EditProduct(Product product) {
-        productList.addProduct(product);
+        this.setEnabled(true);
         LoadTable();
     }
 
     public void UpdateProduct(Product editedProduct, int id) {
         productList.updateProductAt(id, editedProduct);
+        this.setEnabled(true);
         LoadTable();
     }
 
@@ -396,6 +392,7 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NewFileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFileBtnActionPerformed
+        ClearTable();
         SaveBtn.setEnabled(true);
         MainPanel.setVisible(true);
         jLabel3.setVisible(false);
@@ -431,6 +428,7 @@ public class View extends javax.swing.JFrame {
         createProductFrame.setVisible(true);
         createProductFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         createProductFrame.setLocationRelativeTo(null);
+        this.setEnabled(false);
     }//GEN-LAST:event_AddBtnActionPerformed
 
     /**
