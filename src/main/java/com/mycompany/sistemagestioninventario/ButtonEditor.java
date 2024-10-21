@@ -34,11 +34,10 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
 
                 fireEditingStopped();
                 if (label.equals("Configure")) {
-                    System.out.println("Configure clicked for row " + table.getSelectedRow());
                     AddProduct createProductFrame = new AddProduct(false, v);
+                    v.setEnabled(false);
                 } else if (label.equals("Delete")) {
                     v.RemoveProduct(table.getSelectedRow());
-                    System.out.println("Delete clicked for row " + table.getSelectedRow());
                 }
             }
         });

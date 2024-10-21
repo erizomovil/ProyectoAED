@@ -4,6 +4,8 @@
  */
 package com.mycompany.sistemagestioninventario;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JTextField;
 
 /**
@@ -38,10 +40,15 @@ public class AddProduct extends javax.swing.JFrame {
             PriceField.setText(v.getjTable2().getValueAt(tableObjectId, 2).toString());
             CategoryField.setText(v.getjTable2().getValueAt(tableObjectId, 3).toString().toString());
         }
-    }
-
-    ;
-
+        
+        addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                v.setEnabled(true);
+            }
+        });
+    };
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,11 +113,6 @@ public class AddProduct extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 NameFieldFocusLost(evt);
-            }
-        });
-        NameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NameFieldActionPerformed(evt);
             }
         });
 
@@ -187,6 +189,7 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        v.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -205,6 +208,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_NameFieldFocusLost
+
 
     private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameFieldActionPerformed
         
