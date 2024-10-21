@@ -34,6 +34,7 @@ public class View extends javax.swing.JFrame {
     public void AddProduct(Product product) {
         productList.addProduct(product);
         LoadTable();
+        
     }
 
     public void EditProduct(Product product) {
@@ -100,6 +101,112 @@ public class View extends javax.swing.JFrame {
 
         }
         return data;
+    }
+    
+    private void LoadFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Load");
+
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.dat, .csv, .xml, .json)", "dat", "csv", "xml", "json"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToLoad = fileChooser.getSelectedFile();
+            String filePath = fileToLoad.getAbsolutePath();
+            String fileExtension = "";
+
+            String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
+            boolean hasValidExtension = false;
+
+            for (String ext : acceptedExtensions) {
+                if (filePath.toLowerCase().endsWith("." + ext)) {
+                    fileExtension = ext;
+                    hasValidExtension = true;
+                    break;
+                }
+            }
+
+            MainPanel.setVisible(true);
+            jLabel3.setVisible(false);
+            switch (fileExtension) {
+                case "dat":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.DatToObject(filePath));
+                    break;
+                case "csv":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.CSVToObject(filePath));
+                    break;
+                case "xml":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.XMLToObject(filePath));
+                    break;
+                case "json":
+                    productList.getProducts().clear();
+                    productList.addList(transformData.JsonToObject(filePath));
+                    break;
+                default:
+                    new ErrorHandler("Extension not supported", null);
+            }
+            FileName.setText(fileToLoad.getName());
+            LoadTable();
+            loadedFile = fileToLoad;
+            DeleteBtn.setEnabled(true);
+            SaveBtn.setEnabled(true);
+        }
+    }
+    
+    private void SaveFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save as");
+
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.dat, .csv, .xml, .json)", "dat", "csv", "xml", "json"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            String fileExtension = "";
+
+            String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
+            boolean hasValidExtension = false;
+
+            for (String ext : acceptedExtensions) {
+                if (filePath.toLowerCase().endsWith("." + ext)) {
+                    fileExtension = ext;
+                    hasValidExtension = true;
+                    break;
+                }
+            }
+
+            if (!hasValidExtension) {
+                String[] extension = fileChooser.getFileFilter().getDescription().split("\\.");
+                if (extension.length > 1) {
+                    fileExtension = extension[1].replace(")", "").trim();
+                    filePath += ".dat";
+                    fileExtension = "dat";
+                }
+            }
+
+            switch (fileExtension) {
+                case "dat":
+                    transformData.ObjectTODat(productList, filePath);
+                    break;
+                case "csv":
+                    transformData.ObjectToCSV(productList, filePath);
+                    break;
+                case "xml":
+                    transformData.ObjectToXML(productList, filePath);
+                    break;
+                case "json":
+                    transformData.ObjectToJSON(productList, filePath);
+                    break;
+                default:
+                    new ErrorHandler("Extension not supported", null);
+            }
+        }
     }
 
     /**
@@ -308,112 +415,15 @@ public class View extends javax.swing.JFrame {
         SaveBtn.setEnabled(false);
         MainPanel.setVisible(false);
         jLabel3.setVisible(true);
+        DeleteBtn.setEnabled(false);
     }//GEN-LAST:event_ExitBtnActionPerformed
 
     private void LoadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadBtnActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Load");
-
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.dat, .csv, .xml, .json)", "dat", "csv", "xml", "json"));
-
-        int userSelection = fileChooser.showSaveDialog(this);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToLoad = fileChooser.getSelectedFile();
-            String filePath = fileToLoad.getAbsolutePath();
-            String fileExtension = "";
-
-            String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
-            boolean hasValidExtension = false;
-
-            for (String ext : acceptedExtensions) {
-                if (filePath.toLowerCase().endsWith("." + ext)) {
-                    fileExtension = ext;
-                    hasValidExtension = true;
-                    break;
-                }
-            }
-
-            MainPanel.setVisible(true);
-            jLabel3.setVisible(false);
-            switch (fileExtension) {
-                case "dat":
-                    productList.getProducts().clear();
-                    productList.addList(transformData.DatToObject(filePath));
-                    break;
-                case "csv":
-                    productList.getProducts().clear();
-                    productList.addList(transformData.CSVToObject(filePath));
-                    break;
-                case "xml":
-                    productList.getProducts().clear();
-                    productList.addList(transformData.XMLToObject(filePath));
-                    break;
-                case "json":
-                    productList.getProducts().clear();
-                    productList.addList(transformData.JsonToObject(filePath));
-                    break;
-                default:
-                    new ErrorHandler("Extension not supported", null);
-            }
-            FileName.setText(fileToLoad.getName());
-            LoadTable();
-            loadedFile = fileToLoad;
-            DeleteBtn.setEnabled(true);
-            SaveBtn.setEnabled(true);
-        }
+        LoadFile();
     }//GEN-LAST:event_LoadBtnActionPerformed
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Save as");
-
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos (.dat, .csv, .xml, .json)", "dat", "csv", "xml", "json"));
-
-        int userSelection = fileChooser.showSaveDialog(this);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            String filePath = fileToSave.getAbsolutePath();
-            String fileExtension = "";
-
-            String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
-            boolean hasValidExtension = false;
-
-            for (String ext : acceptedExtensions) {
-                if (filePath.toLowerCase().endsWith("." + ext)) {
-                    fileExtension = ext;
-                    hasValidExtension = true;
-                    break;
-                }
-            }
-
-            if (!hasValidExtension) {
-                String[] extension = fileChooser.getFileFilter().getDescription().split("\\.");
-                if (extension.length > 1) {
-                    fileExtension = extension[1].replace(")", "").trim();
-                    filePath += ".dat";
-                    fileExtension = "dat";
-                }
-            }
-
-            switch (fileExtension) {
-                case "dat":
-                    transformData.ObjectTODat(productList, filePath);
-                    break;
-                case "csv":
-                    transformData.ObjectToCSV(productList, filePath);
-                    break;
-                case "xml":
-                    transformData.ObjectToXML(productList, filePath);
-                    break;
-                case "json":
-                    transformData.ObjectToJSON(productList, filePath);
-                    break;
-                default:
-                    new ErrorHandler("Extension not supported", null);
-            }
-        }
+        SaveFile();
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed

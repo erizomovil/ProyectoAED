@@ -28,20 +28,15 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
         button.setOpaque(true);
         button.setFont(new Font("Microsoft YaHei Light", Font.PLAIN, 12));
 
-        // Add action listener to button
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 fireEditingStopped();
                 if (label.equals("Configure")) {
-                    // Add configuration logic here
-                    System.out.println("Configure clicked for row " + table.getSelectedRow());
                     AddProduct createProductFrame = new AddProduct(false, v);
                 } else if (label.equals("Delete")) {
-                    // Add delete logic here
                     v.RemoveProduct(table.getSelectedRow());
-                    System.out.println("Delete clicked for row " + table.getSelectedRow());
                 }
             }
         });
