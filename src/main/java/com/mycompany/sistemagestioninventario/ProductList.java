@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author Jorge
+ * @author Sergio
  */
 @XmlRootElement(name = "products")
 public class ProductList implements Serializable{

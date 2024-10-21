@@ -2,7 +2,6 @@ package com.mycompany.sistemagestioninventario;
 
 import java.util.logging.ConsoleHandler;
 
-//new ErrorHandler("Error" , e);
 
 public class ErrorHandler extends javax.swing.JFrame {
 

@@ -207,7 +207,7 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_NameFieldFocusLost
 
     private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameFieldActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_NameFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
