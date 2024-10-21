@@ -98,8 +98,8 @@ public class View extends javax.swing.JFrame {
         }
         return data;
     }
-    
-    private void LoadFile(){
+
+    private void LoadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Load");
 
@@ -148,12 +148,10 @@ public class View extends javax.swing.JFrame {
             FileName.setText(fileToLoad.getName());
             LoadTable();
             loadedFile = fileToLoad;
-            DeleteBtn.setEnabled(true);
-            SaveBtn.setEnabled(true);
         }
     }
-    
-    private void SaveFile(){
+
+    private void SaveFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save as");
 
@@ -168,24 +166,23 @@ public class View extends javax.swing.JFrame {
 
             String[] acceptedExtensions = {"dat", "csv", "xml", "json"};
             boolean hasValidExtension = false;
+            boolean hasExtension = filePath.contains(".");
 
-            for (String ext : acceptedExtensions) {
-                if (filePath.toLowerCase().endsWith("." + ext)) {
-                    fileExtension = ext;
-                    hasValidExtension = true;
-                    break;
+            if (hasExtension) {
+                for (String ext : acceptedExtensions) {
+                    if (filePath.toLowerCase().endsWith("." + ext)) {
+                        fileExtension = ext;
+                        hasValidExtension = true;
+                        break;
+                    }
                 }
-            }
-
-            if (!hasValidExtension) {
-                String[] extension = fileChooser.getFileFilter().getDescription().split("\\.");
-                if (extension.length > 1) {
-                    fileExtension = extension[1].replace(")", "").trim();
-                    filePath += ".dat";
-                    fileExtension = "dat";
+                if (!hasValidExtension) {
+                    new ErrorHandler("Extension not supported", null);
                 }
+            } else {
+                filePath += ".dat";
+                fileExtension = "dat";
             }
-
             switch (fileExtension) {
                 case "dat":
                     transformData.ObjectTODat(productList, filePath);
@@ -202,6 +199,7 @@ public class View extends javax.swing.JFrame {
                 default:
                     new ErrorHandler("Extension not supported", null);
             }
+            loadedFile = fileToSave;
         }
     }
 
@@ -393,6 +391,7 @@ public class View extends javax.swing.JFrame {
 
     private void NewFileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFileBtnActionPerformed
         ClearTable();
+        FileName.setText("New File");
         SaveBtn.setEnabled(true);
         MainPanel.setVisible(true);
         jLabel3.setVisible(false);
@@ -417,10 +416,13 @@ public class View extends javax.swing.JFrame {
 
     private void LoadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadBtnActionPerformed
         LoadFile();
+        DeleteBtn.setEnabled(true);
+        SaveBtn.setEnabled(true);
     }//GEN-LAST:event_LoadBtnActionPerformed
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         SaveFile();
+        DeleteBtn.setEnabled(true);
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
