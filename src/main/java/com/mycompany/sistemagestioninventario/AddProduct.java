@@ -22,13 +22,20 @@ public class AddProduct extends javax.swing.JFrame {
     private View v;
     private int tableObjectId;
     private Product editProduct;
-
+    
     public AddProduct(Boolean addOperation, View v) {
+        
         initComponents();
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
+        jLabel1.setText(" ");       
+        jLabel2.setText(" ");
+        jLabel3.setText(" ");
+        jLabel4.setText(" ");
+            
         newId = v.productList.getProducts().size();
         this.v = v;
         this.operationType = addOperation;
@@ -68,6 +75,10 @@ public class AddProduct extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         NameField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,16 +86,31 @@ public class AddProduct extends javax.swing.JFrame {
         FileName1.setText("Quantity");
 
         QuantityField.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 12)); // NOI18N
+        QuantityField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuantityFieldActionPerformed(evt);
+            }
+        });
 
         FileName2.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         FileName2.setText("Price");
 
         PriceField.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 12)); // NOI18N
+        PriceField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PriceFieldActionPerformed(evt);
+            }
+        });
 
         FileName3.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         FileName3.setText("Category");
 
         CategoryField.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 12)); // NOI18N
+        CategoryField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CategoryFieldActionPerformed(evt);
+            }
+        });
 
         FileName4.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         FileName4.setText("€");
@@ -106,15 +132,27 @@ public class AddProduct extends javax.swing.JFrame {
         });
 
         NameField.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 18)); // NOI18N
-        NameField.setText("Product Name");
-        NameField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                NameFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                NameFieldFocusLost(evt);
+        NameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NameFieldActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 10)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 10)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel2.setText("jLabel1");
+
+        jLabel3.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 10)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel3.setText("jLabel1");
+
+        jLabel4.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 10)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel4.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,19 +169,23 @@ public class AddProduct extends javax.swing.JFrame {
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1))
-                            .addComponent(CategoryField, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(CategoryField, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(FileName1)
                             .addComponent(FileName2))
                         .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(PriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FileName4))
-                            .addComponent(QuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(QuantityField, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                            .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -151,22 +193,30 @@ public class AddProduct extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel4)
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(FileName1)
                     .addComponent(QuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel1)
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(FileName2)
                     .addComponent(PriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FileName4))
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel2)
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(FileName3)
                     .addComponent(CategoryField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel3)
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
@@ -175,17 +225,77 @@ public class AddProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (operationType) {
-            Product product = new Product(newId, NameField.getText(),
-                    Integer.parseInt(QuantityField.getText()),
-                    Float.parseFloat(PriceField.getText()),
-                    CategoryField.getText());
-            v.AddProduct(product);
-        } else if (!operationType) {
-            editProduct = new Product(v.productList.getProductAt(tableObjectId).getId(), NameField.getText(), Integer.parseInt(QuantityField.getText()), Float.parseFloat(PriceField.getText()), CategoryField.getText());
-            v.UpdateProduct(editProduct, tableObjectId);
+        
+        int cantidad;
+        int isValid = 0;
+        
+        // NAME FIELD
+        
+        if (!"".equals(NameField.getText())) {
+            if (NameField.getText().length() <= 25) {
+                jLabel4.setText(" ");
+                isValid++;
+            } else {
+                jLabel4.setText("^ Name too long (25)");
+            }
+        } else {
+            jLabel4.setText("^ This field must be filled");
         }
-        this.dispose();
+        
+        //QUANTITY FIELD
+        
+        if (!"".equals(QuantityField.getText())){
+            if (QuantityField.getText().matches("\\d+")){
+                jLabel1.setText(" ");
+                isValid++;
+            } else {
+                jLabel1.setText("^ Must be a whole number between 1 - 9999");
+            }
+        } else {
+            jLabel1.setText("^ This field must be filled");
+        }
+        
+        // PRICE FIELD
+        
+        if (!"".equals(PriceField.getText())) {
+            if (PriceField.getText().matches("\\d+(\\.,\\d+)?")) {
+                jLabel2.setText(" ");
+                isValid++;
+            } else {
+                jLabel2.setText("^ Must be a decimal(.) number between 1 - 9999");
+            }
+        } else {
+            jLabel2.setText("^ This field must be filled");
+        }
+        
+        // CATEGORY FIELD
+        
+        if (!"".equals(CategoryField.getText())) {
+            if (CategoryField.getText().length() <= 25) {
+                jLabel3.setText(" ");
+                isValid++;
+            } else {
+                jLabel3.setText("^ Category too long (25)");
+            }
+        } else {
+            jLabel3.setText("^ This field must be filled");
+        }
+
+        if (isValid == 4) {
+            if (operationType) {
+                Product product = new Product(newId, NameField.getText(),
+                        Integer.parseInt(QuantityField.getText()),
+                        Float.parseFloat(PriceField.getText()),
+                        CategoryField.getText());
+                v.AddProduct(product);
+                this.dispose();
+            } else if (!operationType) {
+                editProduct = new Product(v.productList.getProductAt(tableObjectId).getId(), NameField.getText(), Integer.parseInt(QuantityField.getText()), Float.parseFloat(PriceField.getText()), CategoryField.getText());
+                v.UpdateProduct(editProduct, tableObjectId);
+                this.dispose();
+            }
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -193,27 +303,23 @@ public class AddProduct extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void NameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameFieldFocusGained
-        if (operationType) {
-            if (NameField.getText().equals("Product Name")) {
-                NameField.setText("");
-            }
-        }
-    }//GEN-LAST:event_NameFieldFocusGained
-
-    private void NameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameFieldFocusLost
-        if (operationType) {
-            if (NameField.getText().isEmpty()) {
-                NameField.setText("Product Name");
-            }
-        }
-    }//GEN-LAST:event_NameFieldFocusLost
-
 
     private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameFieldActionPerformed
         
     }//GEN-LAST:event_NameFieldActionPerformed
 
+    private void QuantityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuantityFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_QuantityFieldActionPerformed
+
+    private void PriceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PriceFieldActionPerformed
+
+    private void CategoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoryFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CategoryFieldActionPerformed
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CategoryField;
     private javax.swing.JLabel FileName1;
@@ -225,5 +331,9 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField QuantityField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
