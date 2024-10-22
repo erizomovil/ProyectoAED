@@ -22,20 +22,20 @@ public class AddProduct extends javax.swing.JFrame {
     private View v;
     private int tableObjectId;
     private Product editProduct;
-    
+
     public AddProduct(Boolean addOperation, View v) {
-        
+
         initComponents();
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        jLabel1.setText(" ");       
+        jLabel1.setText(" ");
         jLabel2.setText(" ");
         jLabel3.setText(" ");
         jLabel4.setText(" ");
-            
+
         newId = v.productList.getProducts().size();
         this.v = v;
         this.operationType = addOperation;
@@ -47,14 +47,16 @@ public class AddProduct extends javax.swing.JFrame {
             PriceField.setText(v.getjTable2().getValueAt(tableObjectId, 2).toString());
             CategoryField.setText(v.getjTable2().getValueAt(tableObjectId, 3).toString().toString());
         }
-        
-        addWindowListener(new WindowAdapter(){
+
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 v.setEnabled(true);
             }
         });
-    };
+    }
+
+    ;
    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,12 +227,11 @@ public class AddProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         int cantidad;
         int isValid = 0;
-        
+
         // NAME FIELD
-        
         if (!"".equals(NameField.getText())) {
             if (NameField.getText().length() <= 25) {
                 jLabel4.setText(" ");
@@ -241,11 +242,10 @@ public class AddProduct extends javax.swing.JFrame {
         } else {
             jLabel4.setText("^ This field must be filled");
         }
-        
+
         //QUANTITY FIELD
-        
-        if (!"".equals(QuantityField.getText())){
-            if (QuantityField.getText().matches("\\d+")){
+        if (!"".equals(QuantityField.getText())) {
+            if (QuantityField.getText().matches("\\d+")) {
                 jLabel1.setText(" ");
                 isValid++;
             } else {
@@ -254,22 +254,20 @@ public class AddProduct extends javax.swing.JFrame {
         } else {
             jLabel1.setText("^ This field must be filled");
         }
-        
+
         // PRICE FIELD
-        
         if (!"".equals(PriceField.getText())) {
-            if (PriceField.getText().matches("\\d+(\\.,\\d+)?")) {
+            if (PriceField.getText().matches("\\d+([.]\\d+)?")) {
                 jLabel2.setText(" ");
                 isValid++;
             } else {
-                jLabel2.setText("^ Must be a decimal(.) number between 1 - 9999");
+                jLabel2.setText("^ Must be a decimal(.) number between 0 - 9999");
             }
         } else {
             jLabel2.setText("^ This field must be filled");
         }
-        
+
         // CATEGORY FIELD
-        
         if (!"".equals(CategoryField.getText())) {
             if (CategoryField.getText().length() <= 25) {
                 jLabel3.setText(" ");
@@ -295,7 +293,7 @@ public class AddProduct extends javax.swing.JFrame {
                 this.dispose();
             }
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -305,7 +303,7 @@ public class AddProduct extends javax.swing.JFrame {
 
 
     private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameFieldActionPerformed
-        
+
     }//GEN-LAST:event_NameFieldActionPerformed
 
     private void QuantityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuantityFieldActionPerformed
@@ -319,7 +317,7 @@ public class AddProduct extends javax.swing.JFrame {
     private void CategoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoryFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CategoryFieldActionPerformed
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CategoryField;
     private javax.swing.JLabel FileName1;
